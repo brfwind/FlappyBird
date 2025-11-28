@@ -5,15 +5,19 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     public Button startButton;
+    public Button overButton;
+    public GameObject OverCanvas;
     public static bool isStart = false;
 
     void Start()
     {
-        startButton.onClick.AddListener(StartGame);    
+        startButton.onClick.AddListener(StartGame); 
+        overButton.onClick.AddListener(OverGame);
     }
 
     void Update()
@@ -22,6 +26,10 @@ public class UIManager : MonoBehaviour
         {
             startButton.gameObject.SetActive(false);
         }
+        if(BirdController.isDead)
+        {
+            OverCanvas.gameObject.SetActive(true);
+        }
     }
 
     private void StartGame()
@@ -29,5 +37,10 @@ public class UIManager : MonoBehaviour
         isStart = true;
     }
 
-  
+    private void OverGame()
+    {
+        UIManager.isStart = false;
+        BirdController.isDead = false;
+        SceneManager.LoadScene("Game");
+    }
 }

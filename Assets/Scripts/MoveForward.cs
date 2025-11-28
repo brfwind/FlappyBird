@@ -5,6 +5,7 @@ using UnityEngine;
 public class MoveForward : MonoBehaviour
 {
     public float moveSpeed;
+    private bool canMove = true;
     private Vector2 startPos;
 
     void Start()
@@ -12,13 +13,24 @@ public class MoveForward : MonoBehaviour
         startPos = transform.position;
     }
 
+    void Update()
+    {
+        if (BirdController.isDead)
+        {
+            canMove = false;
+        }
+    }
+
     void FixedUpdate()
     {
-        if(Mathf.Abs(startPos.x - transform.position.x) > 10)
+        if (canMove)
         {
-            Destroy(this.gameObject);
-        }
+            if (Mathf.Abs(startPos.x - transform.position.x) > 10)
+            {
+                Destroy(this.gameObject);
+            }
 
-        transform.position += transform.right * -1 * Time.deltaTime * moveSpeed;
+            transform.position += transform.right * -1 * Time.deltaTime * moveSpeed;
+        }
     }
 }

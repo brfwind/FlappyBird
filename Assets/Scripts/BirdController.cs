@@ -13,6 +13,7 @@ public class BirdController : MonoBehaviour
     public float fallRotateSpeed;
     private float RotationZ;
     public float MaxFallSpeed;
+    public static bool isDead = false;
     private Vector2 TopV;
     private Vector2 startPos;
     private Vector3 Velocity = Vector3.zero;
@@ -43,7 +44,7 @@ public class BirdController : MonoBehaviour
     {
         //如果按下左键
         //就让小鸟固定向上移动一段距离（经验公式）
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && !isDead)
         {
             Velocity.y = Mathf.Sqrt(-2 * gravity * JumpHeight);
             TopV = Velocity;
@@ -73,5 +74,14 @@ public class BirdController : MonoBehaviour
     {
         float newY = startPos.y + Mathf.Sin(Time.time * floatSpeed) * floatA;
         transform.position = new Vector2(startPos.x, newY);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if(other.CompareTag("pipe"))
+        {
+            Debug.Log("撞到了");
+            isDead = true;
+        }   
     }
 }

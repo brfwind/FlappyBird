@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -12,6 +13,14 @@ public class Spawner : MonoBehaviour
         StartCoroutine(startPush());
     }
 
+    void Update()
+    {
+        if(BirdController.isDead)
+        {
+            StopCoroutine(startPush());
+        }
+    }
+
     IEnumerator startPush()
     {
         yield return new WaitUntil(() => UIManager.isStart);
@@ -21,11 +30,11 @@ public class Spawner : MonoBehaviour
 
     private void Spawn()
     {
-        float offsetY = Random.Range(-2.81f,2.18f);
+        float offsetY = Random.Range(-2.41f,2.18f);
 
         while(Mathf.Abs(lastOffsetY - offsetY) > 3 || Mathf.Abs(lastOffsetY - offsetY) < 1)
         {
-            offsetY = Random.Range(-2.81f,2.18f);
+            offsetY = Random.Range(-2.41f,2.18f);
         }
 
         lastOffsetY = offsetY;
