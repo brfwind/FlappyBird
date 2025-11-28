@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BirdController : MonoBehaviour
@@ -14,6 +15,7 @@ public class BirdController : MonoBehaviour
     private float RotationZ;
     public float MaxFallSpeed;
     public static bool isDead = false;
+    public static int score = 0;
     private Vector2 TopV;
     private Vector2 startPos;
     private Vector3 Velocity = Vector3.zero;
@@ -21,11 +23,6 @@ public class BirdController : MonoBehaviour
     void Start()
     {
         startPos = transform.position;
-    }
-
-    void FixedUpdate()
-    {
-
     }
 
     void Update()
@@ -82,6 +79,11 @@ public class BirdController : MonoBehaviour
         {
             Debug.Log("撞到了");
             isDead = true;
+        }   
+        if(other.CompareTag("score"))
+        {
+            Debug.Log("得分了");
+            score++;
         }   
     }
 }

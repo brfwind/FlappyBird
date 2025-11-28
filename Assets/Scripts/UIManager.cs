@@ -6,29 +6,36 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     public Button startButton;
     public Button overButton;
-    public GameObject OverCanvas;
+    public GameObject StartPanel;
+    public GameObject PlayPanel;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI bestScoreText;
     public static bool isStart = false;
 
     void Start()
     {
         startButton.onClick.AddListener(StartGame); 
         overButton.onClick.AddListener(OverGame);
+        bestScoreText.text = "最高分：" + PlayerPrefs.GetInt("BestScore");
     }
 
     void Update()
     {
         if(isStart)
         {
-            startButton.gameObject.SetActive(false);
+            StartPanel.gameObject.SetActive(false);
+            PlayPanel.gameObject.SetActive(true);
+            scoreText.text = "分数：" + BirdController.score;
         }
         if(BirdController.isDead)
         {
-            OverCanvas.gameObject.SetActive(true);
+            overButton.gameObject.SetActive(true);
         }
     }
 
@@ -41,6 +48,19 @@ public class UIManager : MonoBehaviour
     {
         UIManager.isStart = false;
         BirdController.isDead = false;
+
+        if(PlayerPrefs.HasKey("BestScore"))
+        {
+            int lastBest = PlayerPrefs.GetInt("BestScore");
+            int nowBest = Mathf.Max(lastBest,BirdController.score);
+            PlayerPrefs.SetInt("BestScore",nowBest);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("BestScore",BirdController.score);
+        }
+
+        BirdController.score = 0;
         SceneManager.LoadScene("Game");
     }
 }
