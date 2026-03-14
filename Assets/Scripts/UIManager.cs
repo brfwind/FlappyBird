@@ -20,6 +20,9 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        //PlayerPrefs.DeleteAll();
+        //PlayerPrefs.Save();
+
         startButton.onClick.AddListener(StartGame); 
         overButton.onClick.AddListener(OverGame);
         bestScoreText.text = "最高分：" + PlayerPrefs.GetInt("BestScore");
